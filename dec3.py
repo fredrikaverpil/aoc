@@ -7,9 +7,6 @@ class Geo:
     def __init__(self, map_):
         self.map = map_
         self.cols = len(map_[0])
-        self.rows = len(map_)
-        self.current_row = 0
-        self.current_col = 0
         self.accumulated_trees = 0
 
     def get_pos(self, row, col):
@@ -68,7 +65,6 @@ class Geo:
 
 with open("dec3/input.txt") as infile:
     map_ = [line for line in infile.read().split("\n")]
-
 
 geo = Geo(map_)
 slopes = [
