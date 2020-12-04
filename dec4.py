@@ -11,6 +11,14 @@ class Passport:
     pid = None
     cid = None
 
+    def __str__(self):
+        return (
+            "Passport("
+            f"byr={self.byr}, iyr={self.iyr}, eyr={self.eyr}, "
+            f"hgt={self.hgt}, hcl={self.hcl}, ecl={self.ecl}, pid={self.pid}"
+            ")"
+        )
+
     def is_valid_v1(self):
         if (
             self.byr
@@ -23,14 +31,6 @@ class Passport:
         ):
             return True
         return False
-
-    def __str__(self):
-        return (
-            "Passport("
-            f"byr={self.byr}, iyr={self.iyr}, eyr={self.eyr}, "
-            f"hgt={self.hgt}, hcl={self.hcl}, ecl={self.ecl}, pid={self.pid}"
-            ")"
-        )
 
     def byr_is_valid(self):
         if (
@@ -75,10 +75,7 @@ class Passport:
         return True
 
     def hcl_is_valid(self):
-        if not self.hcl:
-            return False
-        matches = re.findall(r"^#[a-f0-9]{6}$", self.hcl)
-        if not matches:
+        if not self.hcl or not re.findall(r"^#[a-f0-9]{6}$", self.hcl):
             return False
         return True
 
@@ -88,10 +85,7 @@ class Passport:
         return True
 
     def pid_is_valid(self):
-        if not self.pid:
-            return False
-        matches = re.findall(r"^[\d]{9}$", self.pid)
-        if not matches:
+        if not self.pid or not re.findall(r"^[\d]{9}$", self.pid):
             return False
         return True
 
