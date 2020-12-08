@@ -118,7 +118,7 @@ def task_1():
 def task_2():
     node = Node("shiny gold", use_bag_count=True)
     children = node.get_children()
-    logger.info("Found {len(children)} folders under the 'shiny gold' bag.")
+    logger.info(f"Found {len(children)} folders under the 'shiny gold' bag.")
     assert len(children) == 1664
 
 
