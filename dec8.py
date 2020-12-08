@@ -15,12 +15,6 @@ def get_input():
         return [line for line in infile.read().split("\n")]
 
 
-@lru_cache
-def get_input_as_string():
-    with open("dec8/input.txt") as infile:
-        return infile.read()
-
-
 def get_instructions(input_=get_input()):
     instructions = []
     for item in input_:
