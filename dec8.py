@@ -61,10 +61,6 @@ def part1():
 
 
 def part2():
-    nops = len([line for line in get_input() if "nop" in str(line)])
-    jmps = len([line for line in get_input() if "jmp" in str(line)])
-    logger.debug(f"Found {nops} nops")
-    logger.debug(f"Found {jmps} jmps")
     input_ = get_input()
     for search, replace in [("nop", "jmp"), ("jmp", "nop")]:
         stop = False
