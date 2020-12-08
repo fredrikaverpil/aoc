@@ -46,7 +46,7 @@ class Node:
                             new_node = Node(color, self.use_bag_count)
                             self.add_child(new_node)
                             new_node.set_parent(self)
-                            if self.use_bag_count:
+                            if not self.use_bag_count:
                                 break
 
     def set_parent(self, node):
@@ -98,7 +98,7 @@ def get_bags(use_bag_count):
 
 
 def task_1():
-    bags = get_bags(use_bag_count=True)
+    bags = get_bags(use_bag_count=False)
     bags_containing_shiny_gold_bag = 0
     counter = 0
     for bag in bags:
@@ -116,7 +116,7 @@ def task_1():
 
 
 def task_2():
-    node = Node("shiny gold", use_bag_count=False)
+    node = Node("shiny gold", use_bag_count=True)
     children = node.get_children()
     logger.info("Found {len(children)} folders under the 'shiny gold' bag.")
     assert len(children) == 1664
