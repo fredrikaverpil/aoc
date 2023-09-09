@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"log"
 	"os"
 	"slices"
@@ -67,8 +68,34 @@ func part2(puzzleInput []byte) {
 	log.Printf("Top three largest weights combined: %d", topThree)
 }
 
+func part1Alt1() {
+	file, _ := os.Open("dec1.txt")
+	sc := bufio.NewScanner(file)
+
+	maxWeight := 0
+	currentWeights := 0
+
+	for sc.Scan() {
+		line := sc.Text()
+
+		if line == "" {
+			if currentWeights > maxWeight {
+				maxWeight = currentWeights
+			}
+			currentWeights = 0
+		} else {
+			weight, _ := strconv.Atoi(line)
+			currentWeights += weight
+		}
+
+	}
+
+	log.Printf("[Aternative solution] Largest weight: %d", maxWeight)
+}
+
 func main() {
 	puzzleInput := readFile("dec1.txt")
 	part1(puzzleInput)
 	part2(puzzleInput)
+	part1Alt1()
 }
