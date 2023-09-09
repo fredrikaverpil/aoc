@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 	"os"
-	"sort"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -47,7 +47,8 @@ func contentMapSums(contentMap map[int][]int) []int {
 		sums = append(sums, sum_weights)
 	}
 
-	sort.Sort(sort.Reverse(sort.IntSlice(sums)))
+	slices.Sort(sums)
+	slices.Reverse(sums)
 
 	return sums
 }
