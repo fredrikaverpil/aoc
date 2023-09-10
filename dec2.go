@@ -84,9 +84,9 @@ func dec2part1() {
 		"Z": scissors,
 	}
 
-	contents, _ := os.ReadFile("dec2.txt")
-	r := strings.NewReader(string(contents))
-	scanner := bufio.NewScanner(r)
+	infile, _ := os.Open("dec2.txt")
+	defer infile.Close()
+	scanner := bufio.NewScanner(infile)
 
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -122,9 +122,9 @@ func dec2part2() {
 		"Z": "win",
 	}
 
-	contents, _ := os.ReadFile("dec2.txt")
-	r := strings.NewReader(string(contents))
-	scanner := bufio.NewScanner(r)
+	infile, _ := os.Open("dec2.txt")
+	defer infile.Close()
+	scanner := bufio.NewScanner(infile)
 
 	for scanner.Scan() {
 		line := scanner.Text()
