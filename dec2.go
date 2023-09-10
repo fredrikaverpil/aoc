@@ -16,21 +16,21 @@ type Shape struct {
 	points int
 }
 
-func (p *Player) draw(s Shape) {
+func (p *Player) draw(s *Shape) {
 	drawPoints := 3
 	p.Points += drawPoints + s.points
 }
 
-func (p *Player) win(s Shape) {
+func (p *Player) win(s *Shape) {
 	winPoints := 6
 	p.Points += winPoints + s.points
 }
 
-func (p *Player) loose(s Shape) {
+func (p *Player) loose(s *Shape) {
 	p.Points += s.points
 }
 
-func play(o Shape, p Shape, player *Player) {
+func play(o *Shape, p *Shape, player *Player) {
 	if o.alias == p.alias {
 		player.draw(p)
 	} else if (o.alias == "rock" && p.alias == "paper") ||
@@ -42,7 +42,7 @@ func play(o Shape, p Shape, player *Player) {
 	}
 }
 
-func play2(o Shape, result string, player *Player, rock Shape, paper Shape, scissors Shape) {
+func play2(o *Shape, result string, player *Player, rock *Shape, paper *Shape, scissors *Shape) {
 	if result == "draw" {
 		player.draw(o)
 	} else if result == "win" {
@@ -97,7 +97,7 @@ func dec2part1() {
 		opponentShape := shapeMap[opponentChar]
 		playerShape := shapeMap[myChar]
 
-		play(opponentShape, playerShape, &player)
+		play(&opponentShape, &playerShape, &player)
 	}
 
 	log.Printf("Player's points: %d", player.Points)
@@ -132,10 +132,10 @@ func dec2part2() {
 		opponentChar := characters[0]
 		resultChar := characters[1]
 
-		opponentHand := handMap[opponentChar]
+		opponentShape := handMap[opponentChar]
 		result := resultMap[resultChar]
 
-		play2(opponentHand, result, &player, rock, paper, scissors)
+		play2(&opponentShape, result, &player, &rock, &paper, &scissors)
 
 	}
 
