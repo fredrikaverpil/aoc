@@ -42,11 +42,32 @@ func play(o Shape, p Shape, player *Player) {
 	}
 }
 
-func part1() {
-	contents, _ := os.ReadFile("dec2.txt")
-	r := strings.NewReader(string(contents))
-	scanner := bufio.NewScanner(r)
+func play2(o Shape, result string, player *Player, rock Shape, paper Shape, scissors Shape) {
+	if result == "draw" {
+		player.draw(o)
+	} else if result == "win" {
+		switch o.alias {
+		case "rock":
+			player.win(paper)
+		case "paper":
+			player.win(scissors)
+		case "scissors":
+			player.win(rock)
+		}
+	} else {
+		// loose
+		switch o.alias {
+		case "rock":
+			player.loose(scissors)
+		case "paper":
+			player.loose(rock)
+		case "scissors":
+			player.loose(paper)
+		}
+	}
+}
 
+func dec2part1() {
 	player := Player{0}
 
 	rock := Shape{"rock", 1}
@@ -63,6 +84,10 @@ func part1() {
 		"Z": scissors,
 	}
 
+	contents, _ := os.ReadFile("dec2.txt")
+	r := strings.NewReader(string(contents))
+	scanner := bufio.NewScanner(r)
+
 	for scanner.Scan() {
 		line := scanner.Text()
 		characters := strings.Split(line, " ")
@@ -78,13 +103,8 @@ func part1() {
 	log.Printf("Player's points: %d", player.Points)
 }
 
-func part2() {
-	contents, _ := os.ReadFile("dec2.txt")
-	r := strings.NewReader(string(contents))
-	scanner := bufio.NewScanner(r)
-
-	opponentPoints := 0
-	myPoints := 0
+func dec2part2() {
+	player := Player{0}
 
 	rock := Shape{"rock", 1}
 	paper := Shape{"paper", 2}
@@ -102,8 +122,9 @@ func part2() {
 		"Z": "win",
 	}
 
-	pointsWin := 6
-	pointsDraw := 3
+	contents, _ := os.ReadFile("dec2.txt")
+	r := strings.NewReader(string(contents))
+	scanner := bufio.NewScanner(r)
 
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -114,48 +135,14 @@ func part2() {
 		opponentHand := handMap[opponentChar]
 		result := resultMap[resultChar]
 
-		if result == "win" {
-			if opponentHand.alias == "rock" {
-				myPoints += paper.points + pointsWin
-				opponentPoints += opponentHand.points
-			} else if opponentHand.alias == "paper" {
-				myPoints += scissors.points + pointsWin
-				opponentPoints += opponentHand.points
-			} else if opponentHand.alias == "scissors" {
-				myPoints += rock.points + pointsWin
-				opponentPoints += opponentHand.points
-			}
-		} else if result == "draw" {
-			if opponentHand.alias == "rock" {
-				myPoints += rock.points + pointsDraw
-				opponentPoints += opponentHand.points + pointsDraw
-			} else if opponentHand.alias == "paper" {
-				myPoints += paper.points + pointsDraw
-				opponentPoints += opponentHand.points + pointsDraw
-			} else if opponentHand.alias == "scissors" {
-				myPoints += scissors.points + pointsDraw
-				opponentPoints += opponentHand.points + pointsDraw
-			}
-		} else if result == "loose" {
-			if opponentHand.alias == "rock" {
-				myPoints += scissors.points
-				opponentPoints += opponentHand.points + pointsWin
-			} else if opponentHand.alias == "paper" {
-				myPoints += rock.points
-				opponentPoints += opponentHand.points + pointsWin
-			} else if opponentHand.alias == "scissors" {
-				myPoints += paper.points
-				opponentPoints += opponentHand.points + pointsWin
-			}
-		}
+		play2(opponentHand, result, &player, rock, paper, scissors)
 
 	}
 
-	log.Printf("My points: %d", myPoints)
-	log.Printf("Opponent points: %d", opponentPoints)
+	log.Printf("Player's points: %d", player.Points)
 }
 
 func main() {
-	part1()
-	// part2()
+	dec2part1()
+	dec2part2()
 }
