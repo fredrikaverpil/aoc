@@ -7,9 +7,39 @@ import (
 	"strings"
 )
 
-type Hand struct {
+type Player struct {
+	Points int
+}
+
+type Shape struct {
 	alias  string
 	points int
+}
+
+func (p *Player) draw(s Shape) {
+	drawPoints := 3
+	p.Points += drawPoints + s.points
+}
+
+func (p *Player) win(s Shape) {
+	winPoints := 6
+	p.Points += winPoints + s.points
+}
+
+func (p *Player) loose(s Shape) {
+	p.Points += s.points
+}
+
+func play(o Shape, p Shape, player *Player) {
+	if o.alias == p.alias {
+		player.draw(p)
+	} else if (o.alias == "rock" && p.alias == "paper") ||
+		(o.alias == "paper" && p.alias == "scissors") ||
+		(o.alias == "scissors" && p.alias == "rock") {
+		player.win(p)
+	} else {
+		player.loose(p)
+	}
 }
 
 func part1() {
@@ -17,21 +47,21 @@ func part1() {
 	r := strings.NewReader(string(contents))
 	scanner := bufio.NewScanner(r)
 
-	opponentPoints := 0
-	myPoints := 0
+	player := Player{0}
 
-	handMap := map[string]Hand{
-		"A": {"rock", 1},
-		"B": {"paper", 2},
-		"C": {"scissors", 3},
+	rock := Shape{"rock", 1}
+	paper := Shape{"paper", 2}
+	scissors := Shape{"scissors", 3}
 
-		"X": {"rock", 1},
-		"Y": {"paper", 2},
-		"Z": {"scissors", 3},
+	shapeMap := map[string]Shape{
+		"A": rock,
+		"B": paper,
+		"C": scissors,
+
+		"X": rock,
+		"Y": paper,
+		"Z": scissors,
 	}
-
-	pointsWin := 6
-	pointsDraw := 3
 
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -39,57 +69,13 @@ func part1() {
 		opponentChar := characters[0]
 		myChar := characters[1]
 
-		opponentHand := handMap[opponentChar]
-		myHand := handMap[myChar]
+		opponentShape := shapeMap[opponentChar]
+		playerShape := shapeMap[myChar]
 
-		if myHand.alias == "rock" {
-			if opponentHand.alias == "rock" {
-				// draw
-				myPoints += myHand.points + pointsDraw
-				opponentPoints += opponentHand.points + pointsDraw
-			} else if opponentHand.alias == "scissors" {
-				// win
-				myPoints += myHand.points + pointsWin
-				opponentPoints += opponentHand.points
-			} else if opponentHand.alias == "paper" {
-				// loose
-				myPoints += myHand.points
-				opponentPoints += opponentHand.points + pointsWin
-			}
-		} else if myHand.alias == "paper" {
-			if opponentHand.alias == "paper" {
-				// draw
-				myPoints += myHand.points + pointsDraw
-				opponentPoints += opponentHand.points + pointsDraw
-			} else if opponentHand.alias == "rock" {
-				// win
-				myPoints += myHand.points + pointsWin
-				opponentPoints += opponentHand.points
-			} else if opponentHand.alias == "scissors" {
-				// loose
-				myPoints += myHand.points
-				opponentPoints += opponentHand.points + pointsWin
-			}
-		} else if myHand.alias == "scissors" {
-			if opponentHand.alias == "scissors" {
-				// draw
-				myPoints += myHand.points + pointsDraw
-				opponentPoints += opponentHand.points + pointsDraw
-			} else if opponentHand.alias == "paper" {
-				// win
-				myPoints += myHand.points + pointsWin
-				opponentPoints += opponentHand.points
-			} else if opponentHand.alias == "rock" {
-				// loose
-				myPoints += myHand.points
-				opponentPoints += opponentHand.points + pointsWin
-			}
-		}
-
+		play(opponentShape, playerShape, &player)
 	}
 
-	log.Printf("My points: %d", myPoints)
-	log.Printf("Opponent points: %d", opponentPoints)
+	log.Printf("Player's points: %d", player.Points)
 }
 
 func part2() {
@@ -100,11 +86,11 @@ func part2() {
 	opponentPoints := 0
 	myPoints := 0
 
-	rock := Hand{"rock", 1}
-	paper := Hand{"paper", 2}
-	scissors := Hand{"scissors", 3}
+	rock := Shape{"rock", 1}
+	paper := Shape{"paper", 2}
+	scissors := Shape{"scissors", 3}
 
-	handMap := map[string]Hand{
+	handMap := map[string]Shape{
 		"A": rock,
 		"B": paper,
 		"C": scissors,
@@ -170,6 +156,6 @@ func part2() {
 }
 
 func main() {
-	// part1()
-	part2()
+	part1()
+	// part2()
 }
