@@ -42,3 +42,11 @@ func runDay03() {
 	fmt.Printf("  Part 2: %d\n", part2)
 	fmt.Println()
 }
+
+func runDay04() {
+	part1, part2 := day03.Solve("testdata/day04_input.txt")
+	fmt.Println("Day 4: Printing Department")
+	fmt.Printf("  Part 1: %d\n", part1)
+	fmt.Printf("  Part 2: %d\n", part2)
+	fmt.Println()
+}
