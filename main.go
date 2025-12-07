@@ -9,6 +9,7 @@ import (
 	"github.com/fredrikaverpil/aoc/day03"
 	"github.com/fredrikaverpil/aoc/day04"
 	"github.com/fredrikaverpil/aoc/day05"
+	"github.com/fredrikaverpil/aoc/day06"
 )
 
 func main() {
@@ -21,6 +22,7 @@ func main() {
 	runDay03()
 	runDay04()
 	runDay05()
+	runDay06()
 }
 
 func runDay01() {
@@ -58,6 +60,14 @@ func runDay04() {
 func runDay05() {
 	part1, part2 := day05.Solve("testdata/day05_input.txt")
 	fmt.Println("Day 5: Cafeteria")
+	fmt.Printf("  Part 1: %d\n", part1)
+	fmt.Printf("  Part 2: %d\n", part2)
+	fmt.Println()
+}
+
+func runDay06() {
+	part1, part2 := day06.Solve("testdata/day06_input.txt")
+	fmt.Println("Day 6: Trash Compactor")
 	fmt.Printf("  Part 1: %d\n", part1)
 	fmt.Printf("  Part 2: %d\n", part2)
 	fmt.Println()
